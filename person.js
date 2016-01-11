@@ -48,7 +48,7 @@ module.exports.getPerson= function(req,res,next){
             if(err) return next(err);
            // console.log(obj)
            // res.locals.data=obj;
-           obj.address=JSON.stringify(obj.address);
+          // obj.address=JSON.stringify(obj.address);
             res.send(obj);
             
     });
