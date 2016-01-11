@@ -1,9 +1,4 @@
 //require redis and start redis redis
-//var _redis = require('redis');
-//var redis = _redis.createClient();
-//get the person key
-//var key=req.body.person_id;
-// parsing rediscloud credentials
 var vcap_services = process.env.VCAP_SERVICES;
 var rediscloud_service = JSON.parse(vcap_services)["rediscloud"][0]
 var credentials = rediscloud_service.credentials;
