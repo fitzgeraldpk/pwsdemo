@@ -1,0 +1,27 @@
+{
+  "name": "pwsdemo",
+  "version": "1.0.0",
+  "description": "pws demo app",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test.js",
+    "start": "person-app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "pwsdemo"
+  },
+  "keywords": [
+    "Pivotal",
+    "Web",
+    "Services",
+    "Demo"
+  ],
+  "author": "Patrick Fitzgerald",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "express": "^4.13.3",
+    "redis": "^2.4.2"
+  }
+}
