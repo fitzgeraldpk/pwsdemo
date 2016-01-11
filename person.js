@@ -10,7 +10,7 @@ var credentials = rediscloud_service.credentials;
 
 var _redis = require('redis');
 var redis = _redis.createClient(credentials.port, credentials.hostname, {no_ready_check: true});
-client.auth(credentials.password);
+redis.auth(credentials.password);
 
 
 module.exports.newPerson= function(req,res,next){
