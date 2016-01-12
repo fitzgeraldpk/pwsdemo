@@ -8,46 +8,87 @@ var redis = _redis.createClient(credentials.port, credentials.hostname, {no_read
 redis.auth(credentials.password);
 
 
-module.exports.newPerson= function(req,res,next){
-    console.log(req.body);
+exports.newPerson= function(req,res,next){
      redis.incr('personID', function(err, personID) {
-    if(err) return next(err);
-    var firstName=req.body.firstName;
-    var lastName=req.body.lastName;
-    var age=req.body.age;
-    var addressLine1=req.body.address.line1;
-    var addressLine2=req.body.address.line2;
-    var addressTown=req.body.address.town;
-    var addressCounty=req.body.address.county;
-    var addressCountry=req.body.address.country;
-    redis.hset('person:'+personID,'firstname',firstName);
-    redis.hset('person:'+personID,'lastname',lastName); 
-    redis.hset('person:'+personID,'age',age); 
-    redis.hset('person:'+personID,'addressline1',addressLine1); 
-    redis.hset('person:'+personID,'addressline2',addressLine2); 
-    redis.hset('person:'+personID,'addresstown',addressTown); 
-    redis.hset('person:'+personID,'addresscounty',addressCounty); 
-    redis.hset('person:'+personID,'addressCountry',addressCountry); 
-    next();
+        if(err) return next(err);
+        if (typeof req.body.person!='undefined'){
+            redis.hmset('person:'+personID,{'firstname':req.body.person.firstName,
+                                            'lastname':req.body.person.lastName,
+                                            'age':req.body.person.age,
+                                            'addressline1':req.body.person.address.line1,
+                                            'addressline2':req.body.person.address.line2,
+                                            'addresstown':req.body.person.address.town,
+                                            'addresscounty':req.body.person.address.county,
+                                            'addressCountry':req.body.person.address.country},
+                                            function(err,response){
+                                                if(err) return next(err);
+                                                if (response==='OK'){
+                                                    res.send('New Person Added');
+                                                }else{
+                                                    res.status(503).send({
+                                                        status: 'Error',
+                                                        error: response
+                                                    });    
+                                                }
+                                            }
+                                                                                                );
+        }else{
+            console.log('no person object supplied');
+             res.status(503).send({
+                                    status: 'Error',
+                                    error: 'No person object'
+                                  });    
+        }  
   });
-    
-     
+}
+
+exports.getPerson= function(req,res,next){
+    redis.hgetall('person:'+req.params.id, function(err,obj){
+            if(err) return next(err);
+            res.send(obj);            
+    });
 
 }
 
-module.exports.getPerson= function(req,res,next){
+exports.sendPeople=function(req,res,next){
+    res.send(res.locals.people);
+}
 
-    var personID=req.query.id;
-   // console.log('personID'+personID)
-    redis.hgetall('person:'+personID, function(err,obj){
-            if(err) return next(err);
-           // console.log(obj)
-           // res.locals.data=obj;
-          // obj.address=JSON.stringify(obj.address);
-            res.send(obj);
-            
-    });
+exports.getPeople= function(req,res,next){
+    var id=req.params.start-1;
+    var numberOfPeople=(req.params.finish-req.params.start)+1;
+    var people={};
+    people.data=[];
+    for(var x=0;x<numberOfPeople;x++){
+        id=id+1;
+        (function(people,x,id){  
+            console.log(id);
+            redis.hgetall('person:'+id, function(err,obj){
+                if(err){ return next(err);}
+                 people.data[x]=obj; 
+                 if (x==numberOfPeople-1){   
+                 res.locals.people=people;
+                    next();
+                }                  
+            }); 
+                    
+        })(people,x,id)               
+    } 
+}
 
+exports.deletePerson=function(req,res,next){
+    var id=req.params.id;
+    redis.del('person:'+id,function(err,reply){
+            if(err){ 
+                res.status(503).send({status: 'Error',
+                                      error: 'Error deleting person'}); ;
+            }
+            if (reply===1){
+                res.send('Person deleted');
+            }else{
+                res.status(404).send('Person does not exist');
+            }
+    })
 }
 
 redis.on('error', function (err) {
@@ -57,5 +98,4 @@ redis.on('error', function (err) {
 redis.on('connect', function() {
     console.log('connected to redis host: '+redis.host + ' port: '+redis.port);
 });
-
 
