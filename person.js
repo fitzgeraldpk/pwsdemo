@@ -35,7 +35,7 @@ function addUpdate (req,res,personID){
 exports.newPerson= function(req,res,next){
     if(typeof req.body.person.id!='undefined'){
         console.log('update personID: ' +req.body.person.id)
-        addUpdate(req,res,req.person.body.id);
+        addUpdate(req,res,req.body.person.id);
     }else{
          redis.incr('personID', function(err, personID) {
             if(err) return next(err);
@@ -74,10 +74,12 @@ exports.getPeople= function(req,res,next){
     for(var x=0;x<numberOfPeople;x++){
         id=id+1;
         (function(people,x,id){  
-            console.log(id);
             redis.hgetall('person:'+id, function(err,obj){
                 if(err){ return next(err);}
                  people.data[x]=obj; 
+                    if (people.data[x]!=null){
+                        people.data[x].id=id; 
+                    }
                  if (x==numberOfPeople-1){   
                  res.locals.people=people;
                     next();
@@ -110,4 +112,3 @@ redis.on('error', function (err) {
 redis.on('connect', function() {
     console.log('connected to redis host: '+redis.host + ' port: '+redis.port);
 });
-

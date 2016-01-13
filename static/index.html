@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Pivotal Demo Application</title>
+
+    <!-- Bootstrap Core CSS -->
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Fonts -->
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    
+
+    <!-- Custom Theme CSS -->
+    <link href="css/grayscale.css" rel="stylesheet">
+	 
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-custom" ng-app="person-app" data-ng-controller="personAppCtrl">
+     <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container responsive">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="#page-top">
+                    <i class="fa fa-play-circle"></i>  <span class="glyphicon glyphicon-home"></span>
+                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#newPerson">Add New Person</a>
+                    </li>
+                     <li class="page-scroll">
+                        <a href="#search">Person List</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#links">Helpful Links</a>
+                    </li>
+                     
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <section class="intro">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                    	
+                        <h3 class="brand-heading">Person Details Tracker</h3>
+                       <p class="intro-text">Simple application to record personal details</p>
+                        <div class="page-scroll">
+                            <a href="#newPerson" class="btn btn-circle">
+                                <i class="fa fa-angle-double-down animated"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="newPerson" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>Add New Person</h2>
+                <p id="form">Add or Update a person details with the following form<br/><br/>
+                <div class="col-md-2"></div>
+                <div class="col-md-9">
+                  <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="firstname">First Name </label>
+                        <input type="text" class="form-control" id="firstname" ng-model="person.firstname" placeholder="First Name" name="firstname" required="" />
+                       
+                        <div ng-show="form.$submitted || form.firstname.$touched">
+                        <div ng-show="form.firstname.$error.required">First name please :)</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label" for="lastname">Last Name </label>
+                      <input class="form-control" type="text" ng-model="person.lastname" name="lastname" required="" id="lastname" placeholder="Last Name"/>
+                      
+                      <div ng-show="form.$submitted || form.lastname.$touched">
+                        <div ng-show="form.lastname.$error.required">Last name please :)</div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label  class="col-sm-2 control-label" for="age">Age:</label>
+                      <input class="form-control" type="text" ng-model="person.age" name="age" required="" id="age" placeholder="Age" />
+                      
+                      <div ng-show="form.$submitted || form.age.$touched">
+                        <span ng-show="form.age.$error.required">Tell us your age.</span>
+                      </div> 
+                    </div>
+                    <div class="form-group">
+                     <label class="col-sm-2 control-label" for="line1">Address Line 1</label>
+                      <input class="form-control" type="text" ng-model="person.address.line1" name="line1" required="" id="line1" placeholder="Address Line 1" />
+                      
+                      <div ng-show="form.$submitted || form.line1.$touched">
+                        <span ng-show="form.line1.$error.required">First Line of Address is needed</span>
+                      </div>     
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label" for="line2">Address Line 2</label>
+                      <input class="form-control" type="text" ng-model="person.address.line2" name="line2" required="" id="line2" placeholder="Address Line 2" />
+                      
+                      <div ng-show="form.$submitted || form.line2.$touched">
+                        <span ng-show="form.line2.$error.required">Second Line of Address is needed</span>
+                      </div>     
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label" for="town">Town </label>
+                      <input class="form-control" type="text" ng-model="person.address.town" name="town" required="" id="town" placeholder="Town" />
+                      
+                      <div ng-show="form.$submitted || form.town.$touched">
+                        <span ng-show="form.town.$error.required">Town is required.</span>
+                      </div>     
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label" for="county">County </label>
+                      <input class="form-control" type="text" ng-model="person.address.county" name="county" required="" id="county" placeholder="County" />
+                    
+                      <div ng-show="form.$submitted || form.county.$touched">
+                        <span ng-show="form.county.$error.required">County is required</span>
+                      </div>     
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label" for="country">Country </label>
+                      <input class="form-control" type="text" ng-model="person.address.country" name="country" required="" id="country" placeholder="Country"/>
+                     
+                      <div ng-show="form.$submitted || form.country.$touched">
+                        <span ng-show="form.country.$error.required">Country is required.</span>
+                      </div> 
+                      <br/>         
+                      <button type="submit" ng-click="reset(form)" class="btn btn-warning" style="margin-right:1%"/>Clear
+                      <button type="submit" ng-click="addNew(person)" class="btn btn-primary"/>{{btnSave}}
+                    </div>
+                </form>
+                </div>
+            </div>
+              
+        </div>
+        
+    </section>
+
+   <section id="search" >
+   	<div class="clearfix"><p></p></div>
+       
+   	<div class="row">
+   <div class="col-lg-2">
+   		</div>	   			  
+   		<div class="col-lg-8" >
+   		<div class="table-responsive">	   			  
+   		  <div class="panel panel-default">
+            <!-- Default panel contents -->
+          <div class="panel-heading">
+          	<h4>Person List</h4>
+                <table class="table">
+                    <tbody>
+ 						<tr>
+							<td> Total Number of People: <span class="label label-primary"> {{totalPeople}}</span></td>
+						</tr>
+                    </tbody>
+                </table>
+         </div>	
+            <div class="panel-body">
+   				<table class="table table-hover" style="cursor:pointer">
+                	<thead>
+                    <tr>
+     							    <th>Name</th>
+     							    <th>Age</th>
+     							    <th><span class="glyphicon glyphicon-globe"></span> Address</th>
+                      <th></th>
+                      <th></th>
+		                </tr>
+            	    </thead>
+                
+                	<tbody id="listTable">
+                		<tr data-ng-repeat="list in people">
+	                    	<td>{{list.firstname}} &nbsp; {{list.lastname}}</td>
+        	            	<td>{{list.age}}</td>
+            	        	<td>{{list.addressline1}},&nbsp;{{list.addressline2}},&nbsp;{{list.addresstown}},&nbsp;{{list.addresscounty}},&nbsp;{{list.addressCountry}}</td>
+                        <td><button type="button" class="btn btn-danger" ng-click="deletePerson(list.id)">Delete</button></td>
+                        <td><button type="button" class="btn btn-success" ng-click="getPerson(list.id)">Edit</button></td>
+		            	</tr>
+                	</tbody>
+           	 	</table>
+  					</div><!--panel body-->
+				</div> <!--panel-->
+			</div>
+		</div><!--col-8-->
+		 <div class="col-lg-2">
+   		</div>	   		
+   	</div><!--row end-->
+   		
+   	
+   	
+   </section>
+
+    <section id="links" class="container content-section text-center">
+        <div class="row">
+          
+           </div>    
+                	<div class="row">
+                		 <div class="col-md-12">
+                		<div class="panel panel-default">
+                			<div class="panel-heading">
+                				
+                				<h3><span class="glyphicon glyphicon-info-sign"> </span> Helpful Links</h3>
+                				
+                			</div>
+                			<div class="panel-body">
+                				<table>
+                   			 	<tbody>
+                   			 		<tr>
+                   			 			<h4 style="text-align: left"><span class="glyphicon glyphicon-cloud">&nbsp;</span><a href="https://run.pivotal.io/features/">Pivotal Web Service Features</a></h4>
+                   			 		</tr>
+                    				<tr>
+                    					<h4 style="text-align: left"><span class="glyphicon glyphicon-envelope">&nbsp;</span><a href="mailto:fitzgeraldpk@gmail.com">fitzgeraldpk@gmail.com</a></h4>
+									          </tr>
+                            <tr>
+                              <h4 style="text-align: left"><span class="glyphicon glyphicon-book">&nbsp;</span><a href="http://docs.pivotal.io/">Pivotal Documentation</a></h4>
+                            </tr>
+                            <tr>
+                              <h4 style="text-align: left"><span class="glyphicon glyphicon-download-alt">&nbsp;</span><a href="https://github.com/fitzgeraldpk/pwsdemo">Github Source</a></h4>
+                            </tr>
+
+                                                	
+                    			
+                    			</tbody>
+                    			</table>
+                    		</div>
+                    	</div>
+ 					</div>
+ 
+                    </div>
+                 
+              
+           
+
+    </section>
+    
+   
+
+    <!-- Core JavaScript Files -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.0/angular.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/grayscale.js"></script>
+    <script src="js/personApp.js"></script>
+    <!--google maps-->
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+</body>
+
+</html>
