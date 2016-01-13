@@ -1,8 +1,11 @@
 var express = require('express'),
     http = require('http'),
     person = require('./person.js');
-    var bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
+var cors = require('cors');
 var app = express();
+//allow corss origin requests
+app.use(cors());
 // parse request bodies (req.body)
 app.use(bodyParser.json());
 app.post('/person', person.newPerson);
