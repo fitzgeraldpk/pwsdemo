@@ -8,12 +8,10 @@ var redis = _redis.createClient(credentials.port, credentials.hostname, {no_read
 redis.auth(credentials.password);
 
 
-exports.newPerson= function(req,res,next){
-     redis.incr('personID', function(err, personID) {
-        if(err) return next(err);
-        if (typeof req.body.person!='undefined'){
-            redis.hmset('person:'+personID,{'firstname':req.body.person.firstName,
-                                            'lastname':req.body.person.lastName,
+function addUpdate (req,res,personID){
+
+      redis.hmset('person:'+personID,{'firstname':req.body.person.firstname,
+                                            'lastname':req.body.person.lastname,
                                             'age':req.body.person.age,
                                             'addressline1':req.body.person.address.line1,
                                             'addressline2':req.body.person.address.line2,
@@ -32,14 +30,28 @@ exports.newPerson= function(req,res,next){
                                                 }
                                             }
                                                                                                 );
-        }else{
-            console.log('no person object supplied');
-             res.status(503).send({
-                                    status: 'Error',
-                                    error: 'No person object'
-                                  });    
-        }  
-  });
+
+} 
+exports.newPerson= function(req,res,next){
+    if(typeof req.body.person.id!='undefined'){
+        console.log('update personID: ' +req.body.person.id)
+        addUpdate(req,res,req.person.body.id);
+    }else{
+         redis.incr('personID', function(err, personID) {
+            if(err) return next(err);
+            if (typeof req.body.person!='undefined'){
+                console.log('new personID: ' +personID)
+                    addUpdate(req,res,personID);
+              
+            }else{
+                console.log('no person object supplied');
+                 res.status(503).send({
+                                        status: 'Error',
+                                        error: 'No person object'
+                                      });    
+            }  
+      });
+ }
 }
 
 exports.getPerson= function(req,res,next){
