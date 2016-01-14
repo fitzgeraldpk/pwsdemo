@@ -4,7 +4,6 @@
 var personApp = angular.module('person-app',[]);
 personApp.controller('personAppCtrl',['$scope','$filter','databaseService','$timeout',function($scope,$filter,databaseService,$timeout) {      
     function init(){
-        //Accommodation List
         $scope.people=[];
         $scope.btnSave='Save';
         $scope.getAllPeople(1,500);
