@@ -8,7 +8,7 @@ var app = express();
 app.use(cors());
 // parse request bodies (req.body)
 app.use(bodyParser.json());
-app.post('/person', person.newPerson);
+app.post('/person', setSocket,person.newPerson);
 app.get('/person/:id', person.getPerson);
 app.delete('/person/:id', person.deletePerson);
 app.get('/people/:start/:finish',person.getPeople,person.sendPeople);
@@ -27,8 +27,23 @@ function handleErr(err, req, res, next) {
         error: err.message
     });
 }
-var server=http.createServer(app).listen(process.env.PORT || 3090, function() {
+var server=http.createServer(app).listen(process.env.PORT || 3000, function() {
   console.log('Listening on port ' + (process.env.PORT || 3000));
 });
 
+var io = require('socket.io')(server);
+    var redis = require('socket.io-redis');
+    io.adapter(redis({ host: '192.168.56.103', port: 6379 }));
 
+        io.sockets.on('connection', function(socket) {
+        socket.on('message', function(data) {
+            console.log('emit message');
+        socket.broadcast.emit('message', data);
+    });
+    });
+
+function setSocket(req,res,next){
+
+    req.socket=socket;
+    next();
+}
