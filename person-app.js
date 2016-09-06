@@ -8,7 +8,7 @@ var app = express();
 app.use(cors());
 // parse request bodies (req.body)
 app.use(bodyParser.json());
-app.post('/person', setSocket,person.newPerson);
+app.post('/person',person.newPerson);
 app.get('/person/:id', person.getPerson);
 app.delete('/person/:id', person.deletePerson);
 app.get('/people/:start/:finish',person.getPeople,person.sendPeople);
