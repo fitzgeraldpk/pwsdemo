@@ -8,7 +8,7 @@ personApp.controller('personAppCtrl',['$scope','$filter','databaseService','$tim
         $scope.btnSave='Save';
         $scope.getAllPeople(1,500);
          var host =window.location.hostname;
-        $scope.socket = io.connect(host+':3040');
+        $scope.socket = io.connect(host+':3000');
   
         var start = new Date();
 
