@@ -1,12 +1,11 @@
 //require redis and start redis redis
-var vcap_services = process.env.VCAP_SERVICES;
-var rediscloud_service = JSON.parse(vcap_services)["rediscloud"][0]
-var credentials = rediscloud_service.credentials;
+//var vcap_services = process.env.VCAP_SERVICES;
+//var rediscloud_service = JSON.parse(vcap_services)["rediscloud"][0]
+//var credentials = rediscloud_service.credentials;
 
 var _redis = require('redis');
-var redis = _redis.createClient(credentials.port, credentials.hostname, {no_ready_check: true});
-redis.auth(credentials.password);
-
+var redis = _redis.createClient(6379,"192.168.56.103", {no_ready_check: true});
+//redis.auth(credentials.password);
 
 function addUpdate (req,res,personID){
 

@@ -7,6 +7,22 @@ personApp.controller('personAppCtrl',['$scope','$filter','databaseService','$tim
         $scope.people=[];
         $scope.btnSave='Save';
         $scope.getAllPeople(1,500);
+         var host =window.location.hostname;
+        $scope.socket = io.connect(host+':3040');
+  
+        var start = new Date();
+
+        $scope.socket.on('connect', function() {
+        var index = $scope.socket.io.engine.upgrade ? 1 : 0;
+        $('p').text('Connection established in ' + (new Date() - start) + 'msec. ' +
+          'You are using ' + $scope.socket.io.engine.transports[index] + '.');
+        });
+
+
+        $scope.socket.on('message', function(data) {
+         console.log('recieved message from socket');
+          $scope.getAllPeople(1,500);
+          });
     }
         
     var navigationFn = {
@@ -29,6 +45,7 @@ personApp.controller('personAppCtrl',['$scope','$filter','databaseService','$tim
                 promise.then(function(){
                     console.log('person added');
                     $scope.btnSave='Save';
+                    $scope.socket.emit('message');
                     $scope.getAllPeople(1,500);
                 },function (message) {
                         //$scope.showError();
@@ -106,6 +123,7 @@ personApp.controller('personAppCtrl',['$scope','$filter','databaseService','$tim
                 promise.then(function(){
                     console.log('person deleted');
                     $scope.peopleList={};
+                     $scope.socket.emit('message');
                     $scope.getAllPeople(1,50);
                 },function(message){
                     $scope.errorMsg = message;
