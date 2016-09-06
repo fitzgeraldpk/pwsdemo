@@ -41,9 +41,3 @@ var io = require('socket.io')(server);
         socket.broadcast.emit('message', data);
     });
     });
-
-function setSocket(req,res,next){
-
-    req.socket=socket;
-    next();
-}
