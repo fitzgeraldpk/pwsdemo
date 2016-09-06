@@ -7,8 +7,8 @@ personApp.controller('personAppCtrl',['$scope','$filter','databaseService','$tim
         $scope.people=[];
         $scope.btnSave='Save';
         $scope.getAllPeople(1,500);
-         var host =window.location.hostname;
-        $scope.socket = io.connect(host+':3000');
+        $scope.host =window.location.hostname;
+        $scope.socket = io.connect($scope.host+':3000');
   
         var start = new Date();
 
@@ -157,7 +157,7 @@ personApp.service('databaseService', function($http) {
    return {
           save: function(person) {
              //return the promise directly.
-             return $http.post('http://person-appjs.cfapps.io/person',person)
+             return $http.post('http://'+$scope.host+':3000/person',person)
                        .then(function(result) {
                             //resolve the promise as the data
                             console.log(result);
@@ -165,7 +165,7 @@ personApp.service('databaseService', function($http) {
           },
           getPerson: function(id) {
              //return the promise directly.
-             return $http.get('http://person-appjs.cfapps.io/person/'+id)
+             return $http.get('http://'+$scope.host+':3000/person/'+id)
                        .then(function(result) {
                             //resolve the promise as the data
                             var data={};
@@ -175,13 +175,13 @@ personApp.service('databaseService', function($http) {
           },
           getPeople: function(start,finish) {
              //return the promise directly.
-             return $http.get('http://person-appjs.cfapps.io/people/'+start+'/'+finish)
+             return $http.get('http://'+$scope.host+':3000/people/'+start+'/'+finish)
                        .then(function(result) {
                             return result;
                         });
           },
           deletePerson: function(id){
-            return $http.delete('http://person-appjs.cfapps.io/person/'+id)
+            return $http.delete('http://'+$scope.host+':3000/person/'+id)
                        .then(function(result) {                   
                             console.log(result);
                         });
