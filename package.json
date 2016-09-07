@@ -4,7 +4,7 @@
   "description": "pws demo app",
   "main": "index.js",
   "scripts": {
-    "start": "nohup node person-app.js > person-app.log"
+    "start": "nohup node person-app.js > person-app.log &"
   },
   "repository": {
     "type": "git",
