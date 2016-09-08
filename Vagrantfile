@@ -61,9 +61,9 @@ config.vm.define "redis", autostart: true do |redis|
   
    
   
-  
-  config.proxy.http ="<proxy>"
-  config.proxy.https =="<proxy>"
+  #if proxy needed use vagrant plugin vagrant-proxyconf 
+  #config.proxy.http  ="<proxy>"
+  #config.proxy.https ="<proxy>"
 
   
 end
