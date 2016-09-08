@@ -1,11 +1,5 @@
 Simple application which saves a person's details [Name, Age and Address] and stores the information in a Redis database instance.
 
-This application was written to use with Pivotal Web Services.
+uses socket.io to update connected clients. All connections go to the same Redis database on the redis server.
 
-The node application was released to person-appjs.cfapps.io
-
-The frontend Angularjs App [static buildpack] was released to person.cfapps.io
-
-The redis database is provided by https://console.run.pivotal.io/marketplace/rediscloud
-
-For instructions on how to sign up for a free trial with PWS, please see https://run.pivotal.io/
+Easy to deploy locally using Vagrant...Vagrant file which can be used to deploy a redis and 2 webservers to run this application locally. The 2 web servers allow you to see how the application gets updated using socket.io and redis
