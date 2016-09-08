@@ -4,7 +4,7 @@ cd;
 echo "y" | sudo apt-get install git
 mkdir github;
 cd github
-git clone https://github.com/fitzgeraldpk/pwsdemo.git
+git clone https://github.com/fitzgeraldpk/redis-socket-demo.git
 
 cd;
 apt-get install -y apache2
@@ -27,11 +27,11 @@ sudo apt-get install -y build-essential
 
 
 sudo su -
-cp -R ~/github/pwsdemo/static /var/www/html/personapp
+cp -R ~/github/redis-socket-demo/static /var/www/html/personapp
 
 #set npm proxy if needed
 #npm config set proxy http://<proxy>
 #npm config set https-proxy http://<proxy>
-cd ~/github/pwsdemo
+cd ~/github/redis-socket-demo
 npm install
 npm start
