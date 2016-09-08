@@ -29,9 +29,9 @@ sudo apt-get install -y build-essential
 sudo su -
 cp -R ~/github/pwsdemo/static /var/www/html/personapp
 
-#set npm proxy
-npm config set proxy http://proxy.laya.ie:8080
-npm config set https-proxy http://proxy.laya.ie:8080
+#set npm proxy if needed
+#npm config set proxy http://<proxy>
+#npm config set https-proxy http://<proxy>
 cd ~/github/pwsdemo
 npm install
 npm start
